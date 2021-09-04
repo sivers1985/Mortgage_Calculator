@@ -31,6 +31,7 @@ class MortgageCalculator:
         return "Your monthly payment = $" + "{:.2f}".format(monthly_payment)
 
     def calculate_debt_schedule(self):
+        # Shows the amount owed every month
         for i in range(self.number_monthly_payments):
             p = self.principal
             x = (1 + self.monthly_percentage_rate)
@@ -38,6 +39,7 @@ class MortgageCalculator:
             pn_x = ((x ** i - 1) / (x - 1))
             # Monthly payment
             c = ((self.monthly_percentage_rate * self.principal) / (1 - (1 + self.monthly_percentage_rate) ** -self.number_monthly_payments))
+            # Calculates the amount owed
             amount_owed = x ** i * p - pn_x * c
             print("Amount owed at month {} = {:.2f}".format(i + 1, amount_owed))
             i += 1
@@ -48,19 +50,38 @@ def run_calculator():
     print("Enter 1 for mortgage calculator")
     print("Enter 2 to exit")
     
-    choice = int(input("Enter your choice: "))
+    choice = input("Enter your choice: ")
 
-    while choice != 2:
+    while choice != "1" and choice != "2":
+        print("Please enter a valid choice: ")
+        choice = input("Enter 1 to calculate a mortgage payment or 2 to exit: ")
+        print("----------------------------------------")
 
+    while choice == "1":
         # Enter the variables for the calculation
-        yearly_percentage_rate = float(input("What is the yearly percentage rate? Enter as a decimal: "))
-        print("----------------------------------------")
+        while True:
+            try:
+                yearly_percentage_rate = float(input("What is the yearly percentage rate? Enter as a decimal: "))
+                print("----------------------------------------")
+                break
+            except ValueError:
+                print("Please enter a valid yearly percentage rate.")
         
-        loan_term = int(input("What is the duration of the mortgage? "))
-        print("----------------------------------------")
+        while True:
+            try:
+                loan_term = int(input("What is the duration of the mortgage? "))
+                print("----------------------------------------")
+                break
+            except ValueError:
+                print("Please enter a valid loan term.")
         
-        principal = float(input("What is the amount borrowed? $"))
-        print("----------------------------------------")
+        while True:
+            try:
+                principal = float(input("What is the amount borrowed? $"))
+                print("----------------------------------------")
+                break
+            except ValueError:
+                print("Please enter a valid amount.")
 
         mortgage1 = MortgageCalculator(yearly_percentage_rate, loan_term, principal)
 
