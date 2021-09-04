@@ -1,26 +1,34 @@
 # Python Mortgage Calculator
-# First Codecademy project: utilizing Terminal, git, github
-
+# First Codecademy project: utilizing Terminal, Git, Github, Object Oriented Programming
 
 class MortgageCalculator:
 
-    def get_variables(self):
+    def calculate_monthly_percentage(self, yearly_percentage_rate):
 
-        # Enter the variables for the calculation
-        yearly_percentage_rate = float(input("What is the yearly percentage rate? "))
-        print("----------------------------------------")
-        loan_term = int(input("What is the duration of the mortgage? "))
-        print("----------------------------------------")
-        principal = float(input("What is the amount borrowed? $"))
-        print("----------------------------------------")
+        # Monthly percentage rate
+        monthly_percentage_rate = yearly_percentage_rate / 12
 
-        return yearly_percentage_rate, loan_term, principal
+        return monthly_percentage_rate
 
-def calculate_monthly_payment():
-    pass
+    def calculate_number_payments(self, loan_term):
+        
+        # Number of monthly payments
+        number_monthly_payments = loan_term * 12
 
-def calculate_amount_owed():
-    pass
+        return number_monthly_payments
+
+    def calculate_monthly_payment(self, monthly_percentage_rate, principal, number_monthly_payments):
+    
+        # Calculate monthly payment
+        if monthly_percentage_rate != 0:
+            monthly_payment = ((monthly_percentage_rate * principal) / (1 - (1 + monthly_percentage_rate) ** -number_monthly_payments))
+        else:
+            monthly_payment = principal / number_monthly_payments
+
+        return "Your monthly payment = $" + "{:.2f}".format(monthly_payment)
+
+    def calculate_amount_owed(self):
+        pass
 
 def run_calculator():
 
@@ -34,7 +42,19 @@ def run_calculator():
 
     while choice != 2:
 
-        mortgage1.get_variables()
+        # Enter the variables for the calculation
+        yearly_percentage_rate = float(input("What is the yearly percentage rate? Enter as a decimal: "))
+        print("----------------------------------------")
+        
+        loan_term = int(input("What is the duration of the mortgage? "))
+        print("----------------------------------------")
+        
+        principal = float(input("What is the amount borrowed? $"))
+        print("----------------------------------------")
+
+        print(mortgage1.calculate_monthly_payment(mortgage1.calculate_monthly_percentage(yearly_percentage_rate), principal, 
+        mortgage1.calculate_number_payments(loan_term)))
+        print("----------------------------------------")
 
         choice = int(input("Enter 1 to calculate another mortgage payment or 2 to exit: "))
         print("----------------------------------------")
